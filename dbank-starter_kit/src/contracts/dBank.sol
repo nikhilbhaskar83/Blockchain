@@ -6,7 +6,7 @@ import "./Token.sol";
 contract dBank {
     //assign Token contract to variable
      Token public devtoken;
-     uint256 rate = 1;
+     uint256 rate = 10 ** 5;
 
     //add mappings
     struct User {
@@ -55,9 +55,9 @@ contract dBank {
         //check user's hodl time
 
         //calc interest per second
-        uint256 daysSinceLastCollect = (now - users[msg.sender].createdTime) / (1 days);
-        uint256 interest = daysSinceLastCollect * rate * users[msg.sender].amount;
-        interest = 2;
+        uint256 secs = (now - users[msg.sender].createdTime) ;
+        uint256 interest = secs * rate;
+       
         //calc accrued interest
 
         //send eth to user
@@ -65,7 +65,6 @@ contract dBank {
         to.transfer(users[msg.sender].amount);
 
         //send interest in tokens to user
-        //devtoken.totalSupply = interest;
 
         devtoken.mint(msg.sender,interest);
 
